@@ -104,6 +104,16 @@ export const RecommendScreen: React.FC<RecommendScreenProps> = ({ selectedZoneId
     return `₹${amount.toLocaleString('en-IN')}`;
   };
 
+  const formatPriorityLabel = (priority: string) => {
+    switch (priority) {
+      case 'P1_URGENT': return 'P1 — URGENT ACTION';
+      case 'P2_HIGH': return 'P2 — HIGH ACTION';
+      case 'P3_MEDIUM': return 'P3 — MEDIUM ACTION';
+      case 'P4_LOW': return 'P4 — LOW ACTION';
+      default: return priority.replace(/_/g, ' ');
+    }
+  };
+
   const primaryRec = recommendation.primaryRecommendation;
   const secondaryRecs = recommendation.secondaryRecommendations;
 
@@ -242,7 +252,7 @@ export const RecommendScreen: React.FC<RecommendScreenProps> = ({ selectedZoneId
                       borderRadius: '4px' 
                     }}
                   >
-                    {primaryRec.priority.replace(/_/g, ' ')}
+                    {formatPriorityLabel(primaryRec.priority)}
                   </span>
                 </div>
 

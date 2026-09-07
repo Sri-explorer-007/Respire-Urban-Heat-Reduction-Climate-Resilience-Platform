@@ -110,7 +110,7 @@ export const INTERVENTION_TEMPLATES = {
     costUnit: 'INR per shelter hub cluster',
     impactTempReduction: 3.0,
     impactUnit: '°C microclimate shade relief',
-    coBenefits: ['Occupational health protection', 'Heatstroke prevention', 'Hydration access'],
+    coBenefits: ['Occupational health protection', 'Supports heat-exposure protection', 'Hydration access'],
   },
   URBAN_GREENING_CORRIDOR: {
     id: 'INT-GREENING-004',
