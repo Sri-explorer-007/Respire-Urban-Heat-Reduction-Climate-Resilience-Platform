@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header } from '../common/Header';
 import { IdentifyScreen } from './IdentifyScreen';
 import { ExplainScreen } from './ExplainScreen';
+import { RecommendScreen } from './RecommendScreen';
 
 export type WorkflowStep = 'IDENTIFY' | 'EXPLAIN' | 'RECOMMEND' | 'PRIORITIZE';
 
@@ -34,8 +35,8 @@ export const DashboardLayout: React.FC = () => {
 
         <div 
           className={`workflow-tab ${activeStep === 'RECOMMEND' ? 'active' : ''}`}
-          title="Upcoming Stage: Intervention Recommendation Engine"
-          style={{ opacity: 0.5, cursor: 'not-allowed' }}
+          onClick={() => setActiveStep('RECOMMEND')}
+          aria-label="Navigate to RECOMMEND ACTIONS workflow stage"
         >
           <span className="workflow-step-num">03</span>
           <span>RECOMMEND ACTIONS</span>
@@ -67,10 +68,10 @@ export const DashboardLayout: React.FC = () => {
         )}
 
         {activeStep === 'RECOMMEND' && (
-          <div className="placeholder-card">
-            <h3>Rule-Based Recommendation Module</h3>
-            <p>Upcoming stage: Targeted cooling intervention matrix & rationale.</p>
-          </div>
+          <RecommendScreen 
+            selectedZoneId={selectedZoneId}
+            onSelectZone={(id) => setSelectedZoneId(id)}
+          />
         )}
 
         {activeStep === 'PRIORITIZE' && (

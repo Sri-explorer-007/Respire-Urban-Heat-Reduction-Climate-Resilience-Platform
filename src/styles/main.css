@@ -1,6 +1,7 @@
 @import './variables.css';
 @import './identify.css';
 @import './explain.css';
+@import './recommend.css';
 
 * {
   box-sizing: border-box;

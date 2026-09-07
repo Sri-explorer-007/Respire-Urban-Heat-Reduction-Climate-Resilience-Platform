@@ -175,7 +175,7 @@ export const ExplainScreen: React.FC<ExplainScreenProps> = ({ selectedZoneId, on
             {/* Score & Band Badge */}
             <div className="score-display-card" style={{ marginTop: '8px' }}>
               <div className="score-number-group">
-                <span className="score-label">Priority Risk Score</span>
+          <span className="score-label">Risk Score</span>
                 <div className="score-value" style={{ 
                   color: isInsufficient ? '#94A3B8' : scoreVal! >= 75 ? '#EF4444' : scoreVal! >= 50 ? '#F97316' : scoreVal! >= 25 ? '#EAB308' : '#10B981',
                   fontSize: isInsufficient ? '1.25rem' : '2.25rem'
@@ -319,7 +319,7 @@ export const ExplainScreen: React.FC<ExplainScreenProps> = ({ selectedZoneId, on
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <ShieldAlert size={14} color="#3B82F6" />
-                      TOTAL PRIORITY SCORE
+                      TOTAL RISK SCORE
                     </div>
                   </td>
                   <td>&mdash;</td>

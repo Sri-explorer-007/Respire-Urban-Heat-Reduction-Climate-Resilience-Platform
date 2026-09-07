@@ -68,7 +68,7 @@ export const SelectedZonePanel: React.FC<SelectedZonePanelProps> = ({ zone, risk
       {/* Main Score Display */}
       <div className="score-display-card">
         <div className="score-number-group">
-          <span className="score-label">Priority Risk Score</span>
+          <span className="score-label">Risk Score</span>
           <div className="score-value" style={{ 
             color: isInsufficient ? '#94A3B8' : scoreVal! >= 75 ? '#EF4444' : scoreVal! >= 50 ? '#F97316' : scoreVal! >= 25 ? '#EAB308' : '#10B981',
             fontSize: isInsufficient ? '1.25rem' : '2.25rem'
