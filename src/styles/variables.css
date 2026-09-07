@@ -1,0 +1,38 @@
+:root {
+  /* RESPIRE Color Palette - Municipal Climate Resilience Theme */
+  --bg-dark: #0B0F17;
+  --bg-surface: #121824;
+  --bg-surface-elevated: #1A2234;
+  --bg-surface-border: #26334D;
+  
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  
+  /* Status Colors */
+  --heat-critical: #EF4444;
+  --heat-high: #F97316;
+  --heat-moderate: #EAB308;
+  --heat-low: #10B981;
+  
+  --provenance-sourced: #3B82F6;
+  --provenance-derived: #8B5CF6;
+  --provenance-estimate: #F59E0B;
+  --provenance-assumption: #EC4899;
+  
+  /* Typography */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
