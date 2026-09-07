@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Header } from '../common/Header';
 import { IdentifyScreen } from './IdentifyScreen';
+import { ExplainScreen } from './ExplainScreen';
 
 export type WorkflowStep = 'IDENTIFY' | 'EXPLAIN' | 'RECOMMEND' | 'PRIORITIZE';
 
 export const DashboardLayout: React.FC = () => {
   const [activeStep, setActiveStep] = useState<WorkflowStep>('IDENTIFY');
+  const [selectedZoneId, setSelectedZoneId] = useState<string | null>('ZONE-CHN-W045'); // Default to Vyasarpadi (Ward 045)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--bg-dark)' }}>
@@ -15,6 +17,7 @@ export const DashboardLayout: React.FC = () => {
         <div 
           className={`workflow-tab ${activeStep === 'IDENTIFY' ? 'active' : ''}`}
           onClick={() => setActiveStep('IDENTIFY')}
+          aria-label="Navigate to IDENTIFY RISK workflow stage"
         >
           <span className="workflow-step-num">01</span>
           <span>IDENTIFY RISK</span>
@@ -22,8 +25,8 @@ export const DashboardLayout: React.FC = () => {
 
         <div 
           className={`workflow-tab ${activeStep === 'EXPLAIN' ? 'active' : ''}`}
-          title="Upcoming Stage: Explainable Risk Breakdown"
-          style={{ opacity: 0.6 }}
+          onClick={() => setActiveStep('EXPLAIN')}
+          aria-label="Navigate to EXPLAIN WHY workflow stage"
         >
           <span className="workflow-step-num">02</span>
           <span>EXPLAIN WHY</span>
@@ -32,7 +35,7 @@ export const DashboardLayout: React.FC = () => {
         <div 
           className={`workflow-tab ${activeStep === 'RECOMMEND' ? 'active' : ''}`}
           title="Upcoming Stage: Intervention Recommendation Engine"
-          style={{ opacity: 0.6 }}
+          style={{ opacity: 0.5, cursor: 'not-allowed' }}
         >
           <span className="workflow-step-num">03</span>
           <span>RECOMMEND ACTIONS</span>
@@ -41,7 +44,7 @@ export const DashboardLayout: React.FC = () => {
         <div 
           className={`workflow-tab ${activeStep === 'PRIORITIZE' ? 'active' : ''}`}
           title="Upcoming Stage: Cost & Impact Prioritization"
-          style={{ opacity: 0.6 }}
+          style={{ opacity: 0.5, cursor: 'not-allowed' }}
         >
           <span className="workflow-step-num">04</span>
           <span>PRIORITIZE & FUND</span>
@@ -49,13 +52,18 @@ export const DashboardLayout: React.FC = () => {
       </nav>
 
       <main className="content-container">
-        {activeStep === 'IDENTIFY' && <IdentifyScreen />}
+        {activeStep === 'IDENTIFY' && (
+          <IdentifyScreen 
+            selectedZoneId={selectedZoneId}
+            onSelectZone={(id) => setSelectedZoneId(id)}
+          />
+        )}
 
         {activeStep === 'EXPLAIN' && (
-          <div className="placeholder-card">
-            <h3>Explainable Risk Breakdown Module</h3>
-            <p>Upcoming stage: Detailed indicator provenance & risk component analysis.</p>
-          </div>
+          <ExplainScreen 
+            selectedZoneId={selectedZoneId}
+            onSelectZone={(id) => setSelectedZoneId(id)}
+          />
         )}
 
         {activeStep === 'RECOMMEND' && (

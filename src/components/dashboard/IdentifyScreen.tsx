@@ -13,20 +13,39 @@ interface ScoredZoneItem {
   riskScore: ZoneRiskScore;
 }
 
-export const IdentifyScreen: React.FC = () => {
+interface IdentifyScreenProps {
+  selectedZoneId?: string | null;
+  onSelectZone?: (zoneId: string) => void;
+}
+
+export const IdentifyScreen: React.FC<IdentifyScreenProps> = ({ 
+  selectedZoneId: propSelectedZoneId, 
+  onSelectZone: propOnSelectZone 
+}) => {
   const [zones, setZones] = useState<WardZone[]>([]);
-  const [selectedZoneId, setSelectedZoneId] = useState<string | null>(null);
+  const [internalZoneId, setInternalZoneId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const selectedZoneId = propSelectedZoneId !== undefined ? propSelectedZoneId : internalZoneId;
+
+  const handleSelectZone = (id: string) => {
+    if (propOnSelectZone) {
+      propOnSelectZone(id);
+    } else {
+      setInternalZoneId(id);
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       const data = await respireApi.getWardZones();
       setZones(data);
-      if (data.length > 0) {
+      if (data.length > 0 && !selectedZoneId) {
         // Default select Ward 045 (Vyasarpadi - highest risk candidate)
         const defaultZone = data.find(z => z.wardId === 'WARD-045' || z.zoneId === 'ZONE-CHN-W045') || data[0];
-        setSelectedZoneId(defaultZone.zoneId || defaultZone.id || null);
+        const defaultId = defaultZone.zoneId || defaultZone.id || null;
+        if (defaultId) handleSelectZone(defaultId);
       }
       setLoading(false);
     };
@@ -81,7 +100,7 @@ export const IdentifyScreen: React.FC = () => {
         </div>
         <select 
           value={selectedZoneId || ''} 
-          onChange={(e) => setSelectedZoneId(e.target.value)}
+          onChange={(e) => handleSelectZone(e.target.value)}
           aria-label="Select Chennai Ward for Risk Details"
           style={{ 
             backgroundColor: 'var(--bg-surface-elevated)', 
@@ -111,7 +130,7 @@ export const IdentifyScreen: React.FC = () => {
         <RiskMap 
           scoredZones={scoredZones} 
           selectedZoneId={selectedZoneId} 
-          onSelectZone={(id) => setSelectedZoneId(id)} 
+          onSelectZone={(id) => handleSelectZone(id)} 
         />
 
         <SelectedZonePanel 
