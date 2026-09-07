@@ -3,6 +3,7 @@ import { Header } from '../common/Header';
 import { IdentifyScreen } from './IdentifyScreen';
 import { ExplainScreen } from './ExplainScreen';
 import { RecommendScreen } from './RecommendScreen';
+import { PrioritizeScreen } from './PrioritizeScreen';
 
 export type WorkflowStep = 'IDENTIFY' | 'EXPLAIN' | 'RECOMMEND' | 'PRIORITIZE';
 
@@ -44,8 +45,8 @@ export const DashboardLayout: React.FC = () => {
 
         <div 
           className={`workflow-tab ${activeStep === 'PRIORITIZE' ? 'active' : ''}`}
-          title="Upcoming Stage: Cost & Impact Prioritization"
-          style={{ opacity: 0.5, cursor: 'not-allowed' }}
+          onClick={() => setActiveStep('PRIORITIZE')}
+          aria-label="Navigate to PRIORITIZE & FUND workflow stage"
         >
           <span className="workflow-step-num">04</span>
           <span>PRIORITIZE & FUND</span>
@@ -75,10 +76,10 @@ export const DashboardLayout: React.FC = () => {
         )}
 
         {activeStep === 'PRIORITIZE' && (
-          <div className="placeholder-card">
-            <h3>Cost & Impact Prioritization Module</h3>
-            <p>Upcoming stage: Municipal priority score, indicative cost efficiency, and funding ranking.</p>
-          </div>
+          <PrioritizeScreen 
+            selectedZoneId={selectedZoneId}
+            onSelectZone={(id) => setSelectedZoneId(id)}
+          />
         )}
       </main>
     </div>

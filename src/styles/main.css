@@ -2,6 +2,7 @@
 @import './identify.css';
 @import './explain.css';
 @import './recommend.css';
+@import './prioritize.css';
 
 * {
   box-sizing: border-box;
