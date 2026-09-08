@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#0A0F1D"/>
+  <path d="M16 4C16 4 9 12 9 19C9 22.866 12.134 26 16 26C19.866 26 23 22.866 23 19C23 12 16 4 16 4Z" fill="url(#respireGrad)"/>
+  <path d="M16 12V24M16 18L12 15M16 21L20 18" stroke="#0A0F1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="respireGrad" x1="9" y1="4" x2="23" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00D2FF"/>
+      <stop offset="0.5" stop-color="#3A7BD5"/>
+      <stop offset="1" stop-color="#00E676"/>
+    </linearGradient>
+  </defs>
+</svg>

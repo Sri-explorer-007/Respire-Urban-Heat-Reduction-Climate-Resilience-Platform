@@ -35,3 +35,4 @@ Thumbs.db
 # Temporary & artifacts
 tmp/
 .gemini/
+.vercel/
