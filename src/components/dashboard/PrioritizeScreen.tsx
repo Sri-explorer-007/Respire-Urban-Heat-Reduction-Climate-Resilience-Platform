@@ -4,7 +4,10 @@ import { WardZone } from '../../core/types/zone';
 import { PrioritizationResult, InterventionPriority } from '../../core/types/prioritization';
 import { respirePrioritizationEngine } from '../../core/services/prioritization/prioritizationEngine';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
-import { AlertCircle, Award, HelpCircle, Layers } from 'lucide-react';
+import { AlertCircle, Award, HelpCircle, Layers, FileText } from 'lucide-react';
+import { DecisionReportModal } from './DecisionReportModal';
+
+import { respireWorkspaceService } from '../../core/services/data/workspaceService';
 
 interface PrioritizeScreenProps {
   selectedZoneId: string | null;
@@ -14,6 +17,7 @@ interface PrioritizeScreenProps {
 export const PrioritizeScreen: React.FC<PrioritizeScreenProps> = ({ selectedZoneId, onSelectZone }) => {
   const [zones, setZones] = useState<WardZone[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showReportModal, setShowReportModal] = useState<boolean>(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -24,6 +28,11 @@ export const PrioritizeScreen: React.FC<PrioritizeScreenProps> = ({ selectedZone
     };
 
     loadData();
+
+    const unsubscribe = respireWorkspaceService.subscribe(() => {
+      loadData();
+    });
+    return unsubscribe;
   }, []);
 
   // Compute prioritization results strictly via domain prioritization engine
@@ -87,10 +96,10 @@ export const PrioritizeScreen: React.FC<PrioritizeScreenProps> = ({ selectedZone
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <AlertCircle size={16} color="#F59E0B" />
           <span>
-            <strong>Illustrative Demo Data Active</strong> &mdash; Municipal priorities are derived deterministically by the cost + impact prioritization engine.
+            <strong>{respireApi.getDatasetLabel()} Active</strong> &mdash; Municipal priorities are derived deterministically by the cost + impact prioritization engine.
           </span>
         </div>
-        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>PRIORITIZE WORKFLOW STAGE 04</span>
+        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>WORKFLOW STAGE 05 &bull; PRIORITIZE & FUND</span>
       </div>
 
       {/* Indicative Budget & Candidate Summary Bar */}
@@ -121,11 +130,19 @@ export const PrioritizeScreen: React.FC<PrioritizeScreenProps> = ({ selectedZone
           </div>
 
           <div className="budget-metric-group">
-            <span className="label">Insufficient Data</span>
+            <span className="label">Insufficient Evidence</span>
             <span className="value" style={{ color: '#F97316' }}>
               {unrankedInsufficientEvidence.length} Ward
             </span>
           </div>
+
+          <button 
+            className="btn-primary" 
+            onClick={() => setShowReportModal(true)}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', fontWeight: 700, borderRadius: '6px' }}
+          >
+            <FileText size={18} /> Generate Decision Report
+          </button>
         </div>
       </div>
 
@@ -383,6 +400,11 @@ export const PrioritizeScreen: React.FC<PrioritizeScreenProps> = ({ selectedZone
             ))}
           </div>
         </div>
+      )}
+
+      {/* Decision Report Preview / Export Modal */}
+      {showReportModal && (
+        <DecisionReportModal zones={zones} onClose={() => setShowReportModal(false)} />
       )}
     </div>
   );

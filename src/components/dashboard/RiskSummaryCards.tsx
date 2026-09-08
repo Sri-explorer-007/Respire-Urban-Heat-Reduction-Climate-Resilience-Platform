@@ -53,7 +53,7 @@ export const RiskSummaryCards: React.FC<RiskSummaryCardsProps> = ({ scoredZones 
           <Flame size={16} color="#EF4444" />
         </div>
         <div className="summary-card-value" style={{ color: '#EF4444' }}>{veryHighCount}</div>
-        <div className="summary-card-subtitle">Priority score &ge; 75/100</div>
+        <div className="summary-card-subtitle">Risk score &ge; 75/100</div>
       </div>
 
       {/* 3. High Risk */}
@@ -63,7 +63,7 @@ export const RiskSummaryCards: React.FC<RiskSummaryCardsProps> = ({ scoredZones 
           <AlertTriangle size={16} color="#F97316" />
         </div>
         <div className="summary-card-value" style={{ color: '#F97316' }}>{highCount}</div>
-        <div className="summary-card-subtitle">Priority score 50 &ndash; 74/100</div>
+        <div className="summary-card-subtitle">Risk score 50 &ndash; 74/100</div>
       </div>
 
       {/* 4. Moderate Risk */}
@@ -73,14 +73,14 @@ export const RiskSummaryCards: React.FC<RiskSummaryCardsProps> = ({ scoredZones 
           <CheckCircle size={16} color="#EAB308" />
         </div>
         <div className="summary-card-value" style={{ color: '#EAB308' }}>{moderateCount}</div>
-        <div className="summary-card-subtitle">Priority score 25 &ndash; 49/100</div>
+        <div className="summary-card-subtitle">Risk score 25 &ndash; 49/100</div>
       </div>
 
-      {/* 5. Insufficient Data */}
+      {/* 5. Insufficient Evidence */}
       {insufficientCount > 0 && (
         <div className="summary-card" style={{ borderTop: '3px solid #64748B' }}>
           <div className="summary-card-header">
-            <span>Insufficient Data</span>
+            <span>Insufficient Evidence</span>
             <HelpCircle size={16} color="#94A3B8" />
           </div>
           <div className="summary-card-value" style={{ color: '#94A3B8' }}>{insufficientCount}</div>

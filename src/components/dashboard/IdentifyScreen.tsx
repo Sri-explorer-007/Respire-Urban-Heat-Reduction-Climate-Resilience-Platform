@@ -8,6 +8,8 @@ import { RiskMap } from './RiskMap';
 import { SelectedZonePanel } from './SelectedZonePanel';
 import { AlertCircle, Layers } from 'lucide-react';
 
+import { respireWorkspaceService } from '../../core/services/data/workspaceService';
+
 interface ScoredZoneItem {
   zone: WardZone;
   riskScore: ZoneRiskScore;
@@ -16,11 +18,13 @@ interface ScoredZoneItem {
 interface IdentifyScreenProps {
   selectedZoneId?: string | null;
   onSelectZone?: (zoneId: string) => void;
+  onNavigateToExplain?: () => void;
 }
 
 export const IdentifyScreen: React.FC<IdentifyScreenProps> = ({ 
   selectedZoneId: propSelectedZoneId, 
-  onSelectZone: propOnSelectZone 
+  onSelectZone: propOnSelectZone,
+  onNavigateToExplain
 }) => {
   const [zones, setZones] = useState<WardZone[]>([]);
   const [internalZoneId, setInternalZoneId] = useState<string | null>(null);
@@ -41,17 +45,26 @@ export const IdentifyScreen: React.FC<IdentifyScreenProps> = ({
       setLoading(true);
       const data = await respireApi.getWardZones();
       setZones(data);
-      if (data.length > 0 && !selectedZoneId) {
-        // Default select Ward 045 (Vyasarpadi - highest risk candidate)
-        const defaultZone = data.find(z => z.wardId === 'WARD-045' || z.zoneId === 'ZONE-CHN-W045') || data[0];
-        const defaultId = defaultZone.zoneId || defaultZone.id || null;
-        if (defaultId) handleSelectZone(defaultId);
+
+      if (data.length > 0) {
+        const currentExists = data.some(z => (z.zoneId || z.id) === selectedZoneId);
+        if (!selectedZoneId || !currentExists) {
+          // Default select Ward 045 (Vyasarpadi) if present, else first zone
+          const defaultZone = data.find(z => z.wardId === 'WARD-045' || z.zoneId === 'ZONE-CHN-W045') || data[0];
+          const defaultId = defaultZone.zoneId || defaultZone.id || null;
+          if (defaultId) handleSelectZone(defaultId);
+        }
       }
       setLoading(false);
     };
 
     loadData();
-  }, []);
+
+    const unsubscribe = respireWorkspaceService.subscribe(() => {
+      loadData();
+    });
+    return unsubscribe;
+  }, [selectedZoneId]);
 
   // Pass every zone through the domain scoring engine deterministically
   const scoredZones: ScoredZoneItem[] = useMemo(() => {
@@ -81,11 +94,11 @@ export const IdentifyScreen: React.FC<IdentifyScreenProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <AlertCircle size={16} color="#F59E0B" />
           <span>
-            <strong>Illustrative Demo Data Active</strong> &mdash; All 10 Chennai wards are evaluated live through the domain scoring engine.
+            <strong>{respireApi.getDatasetLabel()} Active</strong> &mdash; All {zones.length} wards evaluated live through the domain scoring engine.
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>IDENTIFY WORKFLOW STAGE 01</span>
+          <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>WORKFLOW STAGE 02 &bull; IDENTIFY</span>
         </div>
       </div>
 
@@ -131,6 +144,7 @@ export const IdentifyScreen: React.FC<IdentifyScreenProps> = ({
           scoredZones={scoredZones} 
           selectedZoneId={selectedZoneId} 
           onSelectZone={(id) => handleSelectZone(id)} 
+          onNavigateToExplain={onNavigateToExplain}
         />
 
         <SelectedZonePanel 

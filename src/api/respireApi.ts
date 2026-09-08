@@ -1,20 +1,19 @@
 import { ZoneDataProvider, DataProviderSourceOptions } from '../core/services/data/dataProvider';
 import { WardZone } from '../core/types/zone';
-import { DEMO_CHENNAI_ZONES, DATASET_LABEL } from '../data/demo/chennaiDemoData';
+import { respireWorkspaceService, DatasetMetadata } from '../core/services/data/workspaceService';
+import { DEMO_CHENNAI_ZONES } from '../data/demo/chennaiDemoData';
 
 /**
  * RESPIRE Platform API Service Layer
  * Serves as the abstraction boundary between UI and Domain/Data Layer.
+ * Delegates active dataset resolution to the workspace service.
  */
 export class LocalRespireDataProvider implements ZoneDataProvider {
-  private activeMode: 'LIVE' | 'DEMO_CACHE' = 'DEMO_CACHE';
-
   async getWardZones(options?: DataProviderSourceOptions): Promise<WardZone[]> {
-    if (options?.forceDemoMode || this.activeMode === 'DEMO_CACHE') {
+    if (options?.forceDemoMode) {
       return DEMO_CHENNAI_ZONES;
     }
-    // Fallback to demo dataset if live service unavailable
-    return DEMO_CHENNAI_ZONES;
+    return respireWorkspaceService.getActiveZones();
   }
 
   async getZoneById(id: string, options?: DataProviderSourceOptions): Promise<WardZone | null> {
@@ -23,12 +22,17 @@ export class LocalRespireDataProvider implements ZoneDataProvider {
   }
 
   isDemoDataActive(): boolean {
-    return true;
+    return respireWorkspaceService.isDemoDatasetActive();
   }
 
   getDatasetLabel(): string {
-    return DATASET_LABEL;
+    return respireWorkspaceService.getActiveMetadata().sourceLabel;
+  }
+
+  getDatasetMetadata(): DatasetMetadata {
+    return respireWorkspaceService.getActiveMetadata();
   }
 }
 
 export const respireApi = new LocalRespireDataProvider();
+

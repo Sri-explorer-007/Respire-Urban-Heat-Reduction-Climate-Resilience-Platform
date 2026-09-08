@@ -1,0 +1,298 @@
+/* Intervention Planning Screen Styles */
+
+.planning-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.planning-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 8px;
+  padding: 24px;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.planning-hero-title-group h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 4px 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.planning-hero-title-group p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.planning-hero-meta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--bg-surface-border);
+  padding: 12px 16px;
+  border-radius: 6px;
+  min-width: 280px;
+}
+
+.planning-hero-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.planning-hero-meta-row strong {
+  color: var(--text-primary);
+}
+
+/* Executive Planning Summary Cards */
+.planning-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.planning-kpi-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.planning-kpi-card .kpi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.planning-kpi-card .kpi-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.planning-kpi-card .kpi-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* General Panel */
+.planning-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.planning-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--bg-surface-border);
+  padding-bottom: 12px;
+}
+
+.planning-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+}
+
+/* Intervention Portfolio Grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.portfolio-card {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.portfolio-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.portfolio-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.portfolio-card-badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.portfolio-metric-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* Implementation Plan Table */
+.planning-table-container {
+  overflow-x: auto;
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 6px;
+}
+
+.planning-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.planning-table th {
+  background: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--bg-surface-border);
+}
+
+.planning-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--bg-surface-border);
+  color: var(--text-primary);
+}
+
+.planning-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.planning-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.planning-table tbody tr.selected {
+  background: rgba(59, 130, 246, 0.12);
+  border-left: 3px solid #3B82F6;
+}
+
+.status-badge-candidate {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3B82F6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-badge-data-required {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Detail Panel */
+.planning-detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.planning-detail-card {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 2-Column Grid Layout */
+.planning-grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Data Required Alert Section */
+.planning-data-alert {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .planning-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .planning-grid-2-col,
+  .planning-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .planning-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .planning-hero-header {
+    flex-direction: column;
+  }
+}

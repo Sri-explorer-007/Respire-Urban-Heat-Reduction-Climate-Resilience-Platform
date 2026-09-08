@@ -7,6 +7,8 @@ import { DataQualityPanel } from './DataQualityPanel';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
 import { AlertCircle, HelpCircle, Layers, Flame, ShieldAlert, BarChart3, MessageSquareText } from 'lucide-react';
 
+import { respireWorkspaceService } from '../../core/services/data/workspaceService';
+
 interface ScoredZoneItem {
   zone: WardZone;
   riskScore: ZoneRiskScore;
@@ -28,8 +30,9 @@ export const ExplainScreen: React.FC<ExplainScreenProps> = ({ selectedZoneId, on
       setZones(data);
 
       if (data.length > 0) {
-        if (!selectedZoneId) {
-          // Default to Ward 045 (Vyasarpadi - highest valid risk zone)
+        const exists = data.some(z => (z.zoneId || z.id) === selectedZoneId);
+        if (!selectedZoneId || !exists) {
+          // Default to Ward 045 (Vyasarpadi) if present, else first zone
           const defaultZone = data.find(z => z.wardId === 'WARD-045' || z.zoneId === 'ZONE-CHN-W045') || data[0];
           const defaultId = defaultZone.zoneId || defaultZone.id;
           if (defaultId) onSelectZone(defaultId);
@@ -39,6 +42,11 @@ export const ExplainScreen: React.FC<ExplainScreenProps> = ({ selectedZoneId, on
     };
 
     loadData();
+
+    const unsubscribe = respireWorkspaceService.subscribe(() => {
+      loadData();
+    });
+    return unsubscribe;
   }, [selectedZoneId, onSelectZone]);
 
   // Calculate scoring results for all 10 zones deterministically via domain engine
@@ -121,10 +129,10 @@ export const ExplainScreen: React.FC<ExplainScreenProps> = ({ selectedZoneId, on
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <AlertCircle size={16} color="#F59E0B" />
           <span>
-            <strong>Illustrative Demo Data Active</strong> &mdash; Explanations and driver rankings are generated deterministically by the scoring engine.
+            <strong>{respireApi.getDatasetLabel()} Active</strong> &mdash; Explanations and driver rankings are generated deterministically by the scoring engine.
           </span>
         </div>
-        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>EXPLAIN WORKFLOW STAGE 02</span>
+        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>WORKFLOW STAGE 03 &bull; EXPLAIN WHY</span>
       </div>
 
       {/* Title & Zone Switcher Bar */}

@@ -1,4 +1,5 @@
 @import './variables.css';
+@import './workspace.css';
 @import './identify.css';
 @import './explain.css';
 @import './recommend.css';
@@ -80,6 +81,9 @@ body {
   background-color: var(--bg-surface-elevated);
   border-bottom: 1px solid var(--bg-surface-border);
   padding: 0 var(--space-lg);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  white-space: nowrap;
 }
 
 .workflow-tab {
@@ -90,14 +94,24 @@ body {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-secondary);
+  background: transparent;
+  border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.workflow-tab:hover {
+  color: #E2E8F0;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .workflow-tab.active {
   color: #FFFFFF;
   border-bottom-color: #3B82F6;
+  background-color: rgba(59, 130, 246, 0.08);
 }
 
 .workflow-step-num {
@@ -110,6 +124,114 @@ body {
   flex: 1;
   padding: var(--space-lg);
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .workflow-nav {
+    padding: 0 var(--space-xs);
+  }
+
+  .workflow-tab {
+    padding: var(--space-sm) var(--space-sm);
+    font-size: 0.78rem;
+  }
+
+  .content-container {
+    padding: var(--space-md);
+  }
+}
+
+/* Unified Button Styles */
+.btn-primary,
+.action-button.primary,
+button.action-button:not(.secondary) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background-color: #3B82F6;
+  color: #FFFFFF;
+  border: 1px solid #2563EB;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover:not(:disabled),
+.action-button.primary:hover:not(:disabled),
+button.action-button:not(.secondary):hover:not(:disabled) {
+  background-color: #2563EB;
+  border-color: #1D4ED8;
+}
+
+.btn-primary:active:not(:disabled),
+.action-button.primary:active:not(:disabled),
+button.action-button:not(.secondary):active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled,
+.action-button.primary:disabled,
+button.action-button:not(.secondary):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary,
+.action-button.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-secondary:hover:not(:disabled),
+.action-button.secondary:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: #64748B;
+  color: #FFFFFF;
+}
+
+.btn-secondary:disabled,
+.action-button.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Accessible Focus Rings */
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .placeholder-card {
@@ -141,3 +263,17 @@ body {
 .provenance-derived { background: rgba(139, 92, 246, 0.15); color: var(--provenance-derived); border: 1px solid rgba(139, 92, 246, 0.3); }
 .provenance-estimate { background: rgba(245, 158, 11, 0.15); color: var(--provenance-estimate); border: 1px solid rgba(245, 158, 11, 0.3); }
 .provenance-assumption { background: rgba(236, 72, 153, 0.15); color: var(--provenance-assumption); border: 1px solid rgba(236, 72, 153, 0.3); }
+
+.readiness-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+

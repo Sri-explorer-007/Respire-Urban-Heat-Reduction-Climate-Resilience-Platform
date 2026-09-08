@@ -80,7 +80,7 @@ export const RuleEvaluationTraceability: React.FC<RuleEvaluationTraceabilityProp
                     borderRadius: '4px',
                     border: '1px solid rgba(234, 179, 8, 0.3)'
                   }}>
-                    <AlertTriangle size={12} /> INSUFFICIENT DATA
+                    <AlertTriangle size={12} /> INSUFFICIENT EVIDENCE
                   </span>
                 ) : (
                   <span style={{ 

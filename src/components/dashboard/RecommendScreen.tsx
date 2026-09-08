@@ -9,6 +9,8 @@ import { RuleEvaluationTraceability } from './RuleEvaluationTraceability';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
 import { AlertCircle, Layers, Lightbulb, CheckCircle2, Thermometer, DollarSign, ListChecks, HelpCircle } from 'lucide-react';
 
+import { respireWorkspaceService } from '../../core/services/data/workspaceService';
+
 interface ScoredAndRecommendedItem {
   zone: WardZone;
   riskScore: ZoneRiskScore;
@@ -30,16 +32,24 @@ export const RecommendScreen: React.FC<RecommendScreenProps> = ({ selectedZoneId
       const data = await respireApi.getWardZones();
       setZones(data);
 
-      if (data.length > 0 && !selectedZoneId) {
-        // Default to Ward 045 (Vyasarpadi - highest risk candidate)
-        const defaultZone = data.find(z => z.wardId === 'WARD-045' || z.zoneId === 'ZONE-CHN-W045') || data[0];
-        const defaultId = defaultZone.zoneId || defaultZone.id;
-        if (defaultId) onSelectZone(defaultId);
+      if (data.length > 0) {
+        const exists = data.some(z => (z.zoneId || z.id) === selectedZoneId);
+        if (!selectedZoneId || !exists) {
+          // Default to Ward 045 (Vyasarpadi) if present, else first zone
+          const defaultZone = data.find(z => z.wardId === 'WARD-045' || z.zoneId === 'ZONE-CHN-W045') || data[0];
+          const defaultId = defaultZone.zoneId || defaultZone.id;
+          if (defaultId) onSelectZone(defaultId);
+        }
       }
       setLoading(false);
     };
 
     loadData();
+
+    const unsubscribe = respireWorkspaceService.subscribe(() => {
+      loadData();
+    });
+    return unsubscribe;
   }, [selectedZoneId, onSelectZone]);
 
   // Evaluate risk scores and rule-based recommendations deterministically via domain engines
@@ -124,10 +134,10 @@ export const RecommendScreen: React.FC<RecommendScreenProps> = ({ selectedZoneId
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <AlertCircle size={16} color="#F59E0B" />
           <span>
-            <strong>Illustrative Demo Data Active</strong> &mdash; Interventions are generated deterministically by the rule-based recommendation engine.
+            <strong>{respireApi.getDatasetLabel()} Active</strong> &mdash; Interventions are generated deterministically by the rule-based recommendation engine.
           </span>
         </div>
-        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>RECOMMEND WORKFLOW STAGE 03</span>
+        <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>WORKFLOW STAGE 04 &bull; RECOMMEND ACTION</span>
       </div>
 
       {/* Zone Quick Switch Selector */}
